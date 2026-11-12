@@ -110,6 +110,12 @@ app.delete('/api/tasks/:id', (req, res) => {
   return res.json({ message: 'Assignment deleted successfully.' });
 });
 
+// Multi-page client routes
+app.get('/dashboard', (_req, res) => res.redirect('/'));
+app.get('/assignments', (_req, res) => res.sendFile(path.join(__dirname, 'public', 'assignments.html')));
+app.get('/calendar', (_req, res) => res.sendFile(path.join(__dirname, 'public', 'calendar.html')));
+app.get('/schedule', (_req, res) => res.redirect('/calendar'));
+
 app.use('/api', (_req, res) => res.status(404).json({ error: 'API endpoint not found.' }));
 app.use((err, _req, res, _next) => {
   console.error(err);

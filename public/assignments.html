@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f7fb">
+  <meta name="description" content="StudyFlow — Assignments & Tasks Interface to manage, filter, and organize coursework.">
+  <title>StudyFlow — Assignments Workspace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/common.js" defer></script>
+  <script src="/assignments.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Navigation Bar -->
+  <header class="mobile-nav-bar">
+    <div class="mobile-brand">
+      <a class="brand" href="/" aria-label="StudyFlow home">
+        <span class="brand-mark">S</span>
+        <span>StudyFlow<small>STUDENT PLANNER</small></span>
+      </a>
+      <button class="button button-primary button-sm trigger-add-modal">＋ Add</button>
+    </div>
+    <nav class="mobile-tabs" aria-label="Mobile navigation">
+      <a class="mobile-tab" href="/"><span class="nav-icon">▦</span> Dashboard</a>
+      <a class="mobile-tab active" href="/assignments.html"><span class="nav-icon">☷</span> Tasks</a>
+      <a class="mobile-tab" href="/calendar.html"><span class="nav-icon">📅</span> Schedule</a>
+    </nav>
+  </header>
+
+  <div class="app-shell">
+    <!-- Desktop Sidebar -->
+    <aside class="sidebar">
+      <a class="brand" href="/" aria-label="StudyFlow home">
+        <span class="brand-mark">S</span>
+        <span>StudyFlow<small>STUDENT PLANNER</small></span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="side-nav" aria-label="Main navigation">
+        <a class="nav-link" href="/"><span class="nav-icon">▦</span> Dashboard</a>
+        <a class="nav-link active" href="/assignments.html"><span class="nav-icon">☷</span> Assignments</a>
+        <a class="nav-link" href="/calendar.html"><span class="nav-icon">📅</span> Schedule</a>
+      </nav>
+      <div class="sidebar-tip">
+        <div class="tip-icon">✦</div>
+        <strong>Organized thoughts.</strong>
+        <p>Tag each assignment by subject and priority to plan your study sessions effectively.</p>
+      </div>
+      <div class="sidebar-footer">
+        <span class="avatar">S</span>
+        <div>
+          <strong>Student Workspace</strong>
+          <small>Assignments Manager</small>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">ACADEMIC WORKSPACE</p>
+          <h1>Assignments & Tasks<span class="heading-dot">.</span></h1>
+          <p class="subheading">Search, filter, manage, and complete your daily academic workload.</p>
+        </div>
+        <div class="topbar-actions">
+          <a href="/" class="button button-secondary">
+            <span>▦</span> Back to Dashboard
+          </a>
+          <button class="button button-primary trigger-add-modal">
+            <span>＋</span> Add Assignment
+          </button>
+        </div>
+      </header>
+
+      <div id="assignments-message" class="message-box" role="alert" hidden></div>
+
+      <div class="assignments-container">
+        <!-- Advanced Toolbar -->
+        <section class="toolbar-panel" aria-label="Assignment search and filters">
+          <div class="toolbar-row">
+            <!-- Search -->
+            <label class="search-box">
+              <span aria-hidden="true">⌕</span>
+              <input id="search-input" type="search" placeholder="Search by title, subject, or description..." autocomplete="off" aria-label="Search assignments">
+            </label>
+
+            <!-- Status Filter -->
+            <select id="status-filter" class="filter-select" aria-label="Filter by status">
+              <option value="All">All Statuses</option>
+              <option value="Pending">Pending Only</option>
+              <option value="Completed">Completed Only</option>
+            </select>
+
+            <!-- Priority Filter -->
+            <select id="priority-filter" class="filter-select" aria-label="Filter by priority">
+              <option value="All">All Priorities</option>
+              <option value="High">High Priority</option>
+              <option value="Medium">Medium Priority</option>
+              <option value="Low">Low Priority</option>
+            </select>
+
+            <!-- Subject Filter -->
+            <select id="subject-filter" class="filter-select" aria-label="Filter by subject">
+              <option value="All">All Subjects</option>
+            </select>
+
+            <!-- Sort By -->
+            <select id="sort-select" class="filter-select" aria-label="Sort assignments">
+              <option value="due-asc">Due: Soonest first</option>
+              <option value="due-desc">Due: Latest first</option>
+              <option value="priority-desc">Priority: High to Low</option>
+              <option value="title-asc">Title: A to Z</option>
+              <option value="created-desc">Recently Added</option>
+            </select>
+          </div>
+
+          <div class="toolbar-footer">
+            <span class="results-count" id="results-count">Loading assignments...</span>
+            <button id="reset-filters" class="reset-filters-btn" hidden>Clear all filters</button>
+          </div>
+        </section>
+
+        <!-- Task List Cards -->
+        <section class="task-list" id="task-list" aria-live="polite">
+          <p class="quiet-hint">Loading assignments...</p>
+        </section>
+      </div>
+
+      <!-- Footer -->
+      <footer class="page-footer">
+        <span>StudyFlow <span aria-hidden="true">✦</span> Academic Task & Coursework Management</span>
+        <nav>
+          <a href="/">Dashboard Overview</a> · 
+          <a href="/calendar.html">Deadlines Timeline</a>
+        </nav>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Shared Add/Edit Task Modal -->
+  <div class="modal-backdrop" id="modal-backdrop" hidden>
+    <section class="task-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-header">
+        <div>
+          <p class="panel-kicker" id="modal-kicker">STAY ON TRACK</p>
+          <h2 id="modal-title">Add an assignment</h2>
+          <p class="modal-subtitle">A clear plan makes the next step easier.</p>
+        </div>
+        <button class="icon-button" id="close-modal" aria-label="Close dialog">×</button>
+      </div>
+      <form id="task-form">
+        <input type="hidden" id="task-id">
+        <label class="form-field">
+          Assignment title <span>*</span>
+          <input id="title-input" name="title" maxlength="120" placeholder="e.g. Complete Lab Report 2" required>
+        </label>
+        <div class="form-row">
+          <label class="form-field">
+            Subject <span>*</span>
+            <input id="subject-input" name="subject" maxlength="80" placeholder="e.g. Chemistry" required>
+          </label>
+          <label class="form-field">
+            Due date <span>*</span>
+            <input id="due-input" name="due_date" type="date" required>
+          </label>
+        </div>
+        <label class="form-field">
+          Priority
+          <select id="priority-input" name="priority">
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+            <option value="Low">Low</option>
+          </select>
+        </label>
+        <label class="form-field">
+          Description <small>(optional)</small>
+          <textarea id="description-input" name="description" rows="3" maxlength="1000" placeholder="Add assignment guidelines, references, or details..."></textarea>
+        </label>
+        <p class="form-error" id="form-error" role="alert" hidden></p>
+        <div class="modal-actions">
+          <button type="button" class="button button-quiet" id="cancel-modal">Cancel</button>
+          <button type="submit" class="button button-primary" id="save-button">Save assignment</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

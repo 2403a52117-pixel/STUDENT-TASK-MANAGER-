@@ -3,16 +3,18 @@
 A beginner-friendly full-stack Software Engineering project. Students can create, view, edit, complete, search, filter, and delete assignments. The dashboard shows totals, pending/completed tasks, assignments due soon, and completion progress.
 
 ## Features
-- Responsive dashboard for desktop and mobile
-- Create, edit, and delete assignments
-- Mark assignments pending/completed
+- **Multi-Page Architecture**: Dedicated interfaces for Dashboard, Assignments Manager, and Deadlines Schedule
+  - **Dashboard (`/`)**: High-level overview, 5 metric cards (Total, Pending, Completed, Due in 7 Days, Overdue), progress bar, urgent upcoming deadlines spotlight, and subject/priority workload breakdown
+  - **Assignments Manager (`/assignments`)**: Dedicated workspace with live search, status filter, priority filter, dynamic subject filter, sorting, and full CRUD operations
+  - **Schedule & Deadlines (`/calendar`)**: Chronological timeline organizing tasks into Overdue, Today & Tomorrow, Next 7 Days, and Later
+- Create, edit, and delete assignments with full modal dialogs
+- Mark assignments pending/completed with instant checkbox toggles
 - Search by title, subject, or description
-- Filter by status and priority labels
+- Multi-criteria filtering by status, priority, and subject
 - Due-date indicators for overdue, today, tomorrow, and upcoming work
-- Dashboard statistics and completion progress
 - Express REST API with server-side validation
 - SQLite database for persistent local storage
-- Friendly empty states, confirmation before deletion, and error messages
+- Responsive layout with desktop sidebar and mobile navigation tabs
 
 > This student project does not include user accounts. It is intended for a local demo or a single-user deployment. Do not store sensitive personal information in it.
 

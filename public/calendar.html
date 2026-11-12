@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f7fb">
+  <meta name="description" content="StudyFlow — Schedule & Deadlines Timeline to visually plan coursework.">
+  <title>StudyFlow — Academic Schedule & Deadlines</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/common.js" defer></script>
+  <script src="/calendar.js" defer></script>
+</head>
+<body>
+  <!-- Mobile Navigation Bar -->
+  <header class="mobile-nav-bar">
+    <div class="mobile-brand">
+      <a class="brand" href="/" aria-label="StudyFlow home">
+        <span class="brand-mark">S</span>
+        <span>StudyFlow<small>STUDENT PLANNER</small></span>
+      </a>
+      <button class="button button-primary button-sm trigger-add-modal">＋ Add</button>
+    </div>
+    <nav class="mobile-tabs" aria-label="Mobile navigation">
+      <a class="mobile-tab" href="/"><span class="nav-icon">▦</span> Dashboard</a>
+      <a class="mobile-tab" href="/assignments.html"><span class="nav-icon">☷</span> Tasks</a>
+      <a class="mobile-tab active" href="/calendar.html"><span class="nav-icon">📅</span> Schedule</a>
+    </nav>
+  </header>
+
+  <div class="app-shell">
+    <!-- Desktop Sidebar -->
+    <aside class="sidebar">
+      <a class="brand" href="/" aria-label="StudyFlow home">
+        <span class="brand-mark">S</span>
+        <span>StudyFlow<small>STUDENT PLANNER</small></span>
+      </a>
+      <div class="side-label">WORKSPACE</div>
+      <nav class="side-nav" aria-label="Main navigation">
+        <a class="nav-link" href="/"><span class="nav-icon">▦</span> Dashboard</a>
+        <a class="nav-link" href="/assignments.html"><span class="nav-icon">☷</span> Assignments</a>
+        <a class="nav-link active" href="/calendar.html"><span class="nav-icon">📅</span> Schedule</a>
+      </nav>
+      <div class="sidebar-tip">
+        <div class="tip-icon">✦</div>
+        <strong>Stay ahead of time.</strong>
+        <p>Checking deadlines early prevents last-minute cramming and improves quality of work.</p>
+      </div>
+      <div class="sidebar-footer">
+        <span class="avatar">S</span>
+        <div>
+          <strong>Student Workspace</strong>
+          <small>Deadlines Timeline</small>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">ACADEMIC SCHEDULE</p>
+          <h1>Deadlines & Timeline<span class="heading-dot">.</span></h1>
+          <p class="subheading">Visual timeline of coursework deadlines grouped chronologically.</p>
+        </div>
+        <div class="topbar-actions">
+          <a href="/assignments.html" class="button button-secondary">
+            <span>☷</span> All Assignments
+          </a>
+          <button class="button button-primary trigger-add-modal">
+            <span>＋</span> Add Assignment
+          </button>
+        </div>
+      </header>
+
+      <div id="timeline-message" class="message-box" role="alert" hidden></div>
+
+      <div class="timeline-container">
+        <!-- 1. Overdue -->
+        <section class="timeline-group group-overdue" aria-labelledby="overdue-title">
+          <div class="timeline-group-header">
+            <div class="group-title-wrap">
+              <span class="stat-symbol symbol-red">⚠</span>
+              <h3 id="overdue-title">Overdue Assignments</h3>
+            </div>
+            <span class="count-badge" id="overdue-count-badge">0</span>
+          </div>
+          <div class="timeline-items" id="timeline-overdue">
+            <p class="quiet-hint">Loading overdue assignments...</p>
+          </div>
+        </section>
+
+        <!-- 2. Today & Tomorrow -->
+        <section class="timeline-group group-today" aria-labelledby="today-title">
+          <div class="timeline-group-header">
+            <div class="group-title-wrap">
+              <span class="stat-symbol symbol-orange">◷</span>
+              <h3 id="today-title">Today & Tomorrow</h3>
+            </div>
+            <span class="count-badge" id="today-count-badge">0</span>
+          </div>
+          <div class="timeline-items" id="timeline-today">
+            <p class="quiet-hint">Loading immediate deadlines...</p>
+          </div>
+        </section>
+
+        <!-- 3. Next 7 Days -->
+        <section class="timeline-group" aria-labelledby="week-title">
+          <div class="timeline-group-header">
+            <div class="group-title-wrap">
+              <span class="stat-symbol symbol-purple">⌁</span>
+              <h3 id="week-title">Next 7 Days (Upcoming Week)</h3>
+            </div>
+            <span class="count-badge" id="week-count-badge">0</span>
+          </div>
+          <div class="timeline-items" id="timeline-week">
+            <p class="quiet-hint">Loading weekly deadlines...</p>
+          </div>
+        </section>
+
+        <!-- 4. Later & Beyond -->
+        <section class="timeline-group" aria-labelledby="later-title">
+          <div class="timeline-group-header">
+            <div class="group-title-wrap">
+              <span class="stat-symbol">📅</span>
+              <h3 id="later-title">Later & Beyond</h3>
+            </div>
+            <span class="count-badge" id="later-count-badge">0</span>
+          </div>
+          <div class="timeline-items" id="timeline-later">
+            <p class="quiet-hint">Loading later deadlines...</p>
+          </div>
+        </section>
+
+        <!-- 5. Completed -->
+        <section class="timeline-group" aria-labelledby="completed-title">
+          <div class="timeline-group-header">
+            <div class="group-title-wrap">
+              <span class="stat-symbol symbol-green">✓</span>
+              <h3 id="completed-title">Completed Milestones</h3>
+            </div>
+            <span class="count-badge" id="completed-count-badge">0</span>
+          </div>
+          <div class="timeline-items" id="timeline-completed">
+            <p class="quiet-hint">Loading completed tasks...</p>
+          </div>
+        </section>
+      </div>
+
+      <!-- Footer -->
+      <footer class="page-footer">
+        <span>StudyFlow <span aria-hidden="true">✦</span> Academic Task & Coursework Management</span>
+        <nav>
+          <a href="/">Dashboard Overview</a> · 
+          <a href="/assignments.html">Assignments Workspace</a>
+        </nav>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Shared Add/Edit Task Modal -->
+  <div class="modal-backdrop" id="modal-backdrop" hidden>
+    <section class="task-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-header">
+        <div>
+          <p class="panel-kicker" id="modal-kicker">STAY ON TRACK</p>
+          <h2 id="modal-title">Add an assignment</h2>
+          <p class="modal-subtitle">A clear plan makes the next step easier.</p>
+        </div>
+        <button class="icon-button" id="close-modal" aria-label="Close dialog">×</button>
+      </div>
+      <form id="task-form">
+        <input type="hidden" id="task-id">
+        <label class="form-field">
+          Assignment title <span>*</span>
+          <input id="title-input" name="title" maxlength="120" placeholder="e.g. History Essay Draft" required>
+        </label>
+        <div class="form-row">
+          <label class="form-field">
+            Subject <span>*</span>
+            <input id="subject-input" name="subject" maxlength="80" placeholder="e.g. World History" required>
+          </label>
+          <label class="form-field">
+            Due date <span>*</span>
+            <input id="due-input" name="due_date" type="date" required>
+          </label>
+        </div>
+        <label class="form-field">
+          Priority
+          <select id="priority-input" name="priority">
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+            <option value="Low">Low</option>
+          </select>
+        </label>
+        <label class="form-field">
+          Description <small>(optional)</small>
+          <textarea id="description-input" name="description" rows="3" maxlength="1000" placeholder="Add assignment guidelines, references, or details..."></textarea>
+        </label>
+        <p class="form-error" id="form-error" role="alert" hidden></p>
+        <div class="modal-actions">
+          <button type="button" class="button button-quiet" id="cancel-modal">Cancel</button>
+          <button type="submit" class="button button-primary" id="save-button">Save assignment</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

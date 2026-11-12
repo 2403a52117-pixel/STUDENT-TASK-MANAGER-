@@ -3,64 +3,258 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#f5f6fb">
-  <meta name="description" content="A simple dashboard to organize student assignments and deadlines.">
-  <title>StudyFlow — Student Task Manager</title>
+  <meta name="theme-color" content="#f6f7fb">
+  <meta name="description" content="StudyFlow — Student Academic Dashboard for tracking coursework and deadlines.">
+  <title>StudyFlow — Student Dashboard</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
-  <script src="/script.js" defer></script>
+  <script src="/common.js" defer></script>
+  <script src="/dashboard.js" defer></script>
 </head>
 <body>
+  <!-- Mobile Navigation Bar -->
+  <header class="mobile-nav-bar">
+    <div class="mobile-brand">
+      <a class="brand" href="/" aria-label="StudyFlow home">
+        <span class="brand-mark">S</span>
+        <span>StudyFlow<small>STUDENT PLANNER</small></span>
+      </a>
+      <button class="button button-primary button-sm trigger-add-modal">＋ Add</button>
+    </div>
+    <nav class="mobile-tabs" aria-label="Mobile navigation">
+      <a class="mobile-tab active" href="/"><span class="nav-icon">▦</span> Dashboard</a>
+      <a class="mobile-tab" href="/assignments.html"><span class="nav-icon">☷</span> Tasks</a>
+      <a class="mobile-tab" href="/calendar.html"><span class="nav-icon">📅</span> Schedule</a>
+    </nav>
+  </header>
+
   <div class="app-shell">
+    <!-- Desktop Sidebar -->
     <aside class="sidebar">
-      <a class="brand" href="#top" aria-label="StudyFlow home"><span class="brand-mark">S</span><span>StudyFlow<small>STUDENT PLANNER</small></span></a>
+      <a class="brand" href="/" aria-label="StudyFlow home">
+        <span class="brand-mark">S</span>
+        <span>StudyFlow<small>STUDENT PLANNER</small></span>
+      </a>
       <div class="side-label">WORKSPACE</div>
       <nav class="side-nav" aria-label="Main navigation">
-        <a class="nav-link active" href="#dashboard"><span class="nav-icon">▦</span> Dashboard</a>
-        <a class="nav-link" href="#assignments"><span class="nav-icon">☷</span> Assignments</a>
+        <a class="nav-link active" href="/"><span class="nav-icon">▦</span> Dashboard</a>
+        <a class="nav-link" href="/assignments.html"><span class="nav-icon">☷</span> Assignments</a>
+        <a class="nav-link" href="/calendar.html"><span class="nav-icon">📅</span> Schedule</a>
       </nav>
-      <div class="sidebar-tip"><div class="tip-icon">✦</div><strong>Small steps add up.</strong><p>Keep your tasks organized and make room for your best work.</p></div>
-      <div class="sidebar-footer"><span class="avatar">S</span><span><strong>My workspace</strong><small>Personal planner</small></span></div>
+      <div class="sidebar-tip">
+        <div class="tip-icon">✦</div>
+        <strong>Focus on consistency.</strong>
+        <p>Break large projects into small daily actions and track every milestone.</p>
+      </div>
+      <div class="sidebar-footer">
+        <span class="avatar">S</span>
+        <div>
+          <strong>Student Workspace</strong>
+          <small>Academic Planner</small>
+        </div>
+      </div>
     </aside>
 
-    <main class="main-content" id="top">
-      <header class="topbar"><div><p class="eyebrow" id="today-label">YOUR STUDY SPACE</p><h1>Good work starts with a plan<span class="heading-dot">.</span></h1><p class="subheading">Keep track of what matters, one assignment at a time.</p></div><button class="button button-primary top-add" id="open-add"><span>＋</span> Add assignment</button></header>
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="today-label">YOUR STUDY SPACE</p>
+          <h1>Academic Dashboard<span class="heading-dot">.</span></h1>
+          <p class="subheading">High-level overview of your coursework progress and urgent deadlines.</p>
+        </div>
+        <div class="topbar-actions">
+          <a href="/assignments.html" class="button button-secondary">
+            <span>☷</span> View All Tasks
+          </a>
+          <button class="button button-primary trigger-add-modal">
+            <span>＋</span> Add Assignment
+          </button>
+        </div>
+      </header>
 
-      <section class="stats-grid" id="dashboard" aria-label="Assignment summary">
-        <article class="stat-card stat-total"><div class="stat-top"><span>Total assignments</span><span class="stat-symbol">▤</span></div><div class="stat-number" id="total-count">0</div><div class="stat-foot">Everything on your list</div></article>
-        <article class="stat-card"><div class="stat-top"><span>Pending</span><span class="stat-symbol symbol-orange">◷</span></div><div class="stat-number" id="pending-count">0</div><div class="stat-foot">Still to be completed</div></article>
-        <article class="stat-card"><div class="stat-top"><span>Completed</span><span class="stat-symbol symbol-green">✓</span></div><div class="stat-number" id="completed-count">0</div><div class="stat-foot">Nice progress so far</div></article>
-        <article class="stat-card"><div class="stat-top"><span>Due soon</span><span class="stat-symbol symbol-purple">⌁</span></div><div class="stat-number" id="due-count">0</div><div class="stat-foot">Due in the next 7 days</div></article>
+      <div id="dashboard-message" class="message-box" role="alert" hidden></div>
+
+      <!-- Stats Grid (5 Cards) -->
+      <section class="stats-grid" aria-label="Coursework metrics">
+        <article class="stat-card">
+          <div class="stat-top">
+            <span>Total Tasks</span>
+            <span class="stat-symbol">▤</span>
+          </div>
+          <div class="stat-number" id="total-count">0</div>
+          <div class="stat-foot">All assignments recorded</div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <span>Pending</span>
+            <span class="stat-symbol symbol-orange">◷</span>
+          </div>
+          <div class="stat-number" id="pending-count">0</div>
+          <div class="stat-foot">Still to be completed</div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <span>Completed</span>
+            <span class="stat-symbol symbol-green">✓</span>
+          </div>
+          <div class="stat-number" id="completed-count">0</div>
+          <div class="stat-foot">Great academic progress</div>
+        </article>
+
+        <article class="stat-card">
+          <div class="stat-top">
+            <span>Due in 7 Days</span>
+            <span class="stat-symbol symbol-purple">⌁</span>
+          </div>
+          <div class="stat-number" id="due-count">0</div>
+          <div class="stat-foot">Upcoming deadlines</div>
+        </article>
+
+        <article class="stat-card" id="overdue-card">
+          <div class="stat-top">
+            <span>Overdue</span>
+            <span class="stat-symbol symbol-red">⚠</span>
+          </div>
+          <div class="stat-number" id="overdue-count">0</div>
+          <div class="stat-foot">Require immediate action</div>
+        </article>
       </section>
 
-      <section class="progress-panel" aria-label="Completion progress"><div class="progress-copy"><div><span class="panel-kicker">YOUR PROGRESS</span><h2>Every completed task counts</h2></div><div class="progress-percent" id="progress-percent">0%</div></div><div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div><p id="progress-caption">Complete your first assignment to get started.</p></section>
-
-      <section class="assignment-section" id="assignments">
-        <div class="section-heading"><div><p class="panel-kicker">YOUR WORKLOAD</p><h2>Assignments</h2></div><span class="results-count" id="results-count">0 items</span></div>
-        <div class="toolbar"><label class="search-box"><span aria-hidden="true">⌕</span><input id="search-input" type="search" placeholder="Search assignments or subjects..." autocomplete="off" aria-label="Search assignments"></label><label class="filter-wrap"><span class="sr-only">Filter by status</span><select id="status-filter"><option value="All">All tasks</option><option value="Pending">Pending</option><option value="Completed">Completed</option></select></label></div>
-        <div id="message" class="message" role="status" aria-live="polite" hidden></div>
-        <div class="task-list" id="task-list" aria-live="polite"></div>
+      <!-- Overall Progress Panel -->
+      <section class="progress-panel" aria-label="Overall completion rate">
+        <div class="progress-copy">
+          <div>
+            <span class="panel-kicker">COMPLETION RATE</span>
+            <h2>Coursework Progress</h2>
+          </div>
+          <div class="progress-percent" id="progress-percent">0%</div>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <p id="progress-caption">Loading your academic progress...</p>
       </section>
-      <footer class="page-footer"><span>StudyFlow <span aria-hidden="true">✦</span> Made for focused learning</span><span>Student Task & Assignment Manager</span></footer>
+
+      <!-- Two-Column Split Layout -->
+      <div class="dashboard-split">
+        <!-- Left: Urgent Deadlines -->
+        <section class="dashboard-panel" aria-labelledby="upcoming-heading">
+          <div class="panel-header">
+            <div>
+              <span class="panel-kicker">FOCUS AREA</span>
+              <h3 class="panel-title" id="upcoming-heading">Urgent & Upcoming Deadlines</h3>
+            </div>
+            <a href="/assignments.html" class="panel-link">View All Tasks →</a>
+          </div>
+          <div class="upcoming-list" id="upcoming-list">
+            <p class="quiet-hint">Loading deadlines...</p>
+          </div>
+        </section>
+
+        <!-- Right: Subject & Priority Breakdown -->
+        <section class="dashboard-panel" aria-labelledby="workload-heading">
+          <div class="panel-header">
+            <div>
+              <span class="panel-kicker">DISTRIBUTION</span>
+              <h3 class="panel-title" id="workload-heading">Subject Workload</h3>
+            </div>
+            <span class="stat-foot">Tasks per subject</span>
+          </div>
+
+          <div class="subject-breakdown-list" id="subject-breakdown-list">
+            <p class="quiet-hint">Loading subjects...</p>
+          </div>
+
+          <div class="panel-header" style="margin-top: 14px; margin-bottom: 10px;">
+            <span class="panel-kicker">PENDING BY PRIORITY</span>
+          </div>
+          <div class="priority-overview" id="priority-overview">
+            <div class="priority-pill high">
+              <span>High</span>
+              <strong id="high-priority-count">0</strong>
+            </div>
+            <div class="priority-pill medium">
+              <span>Medium</span>
+              <strong id="medium-priority-count">0</strong>
+            </div>
+            <div class="priority-pill low">
+              <span>Low</span>
+              <strong id="low-priority-count">0</strong>
+            </div>
+          </div>
+
+          <div class="study-tip-box">
+            <span>💡</span>
+            <p><strong>Pro Study Tip:</strong> Finish high-priority items during your peak energy hours before tackling routine coursework.</p>
+          </div>
+        </section>
+      </div>
+
+      <!-- Footer -->
+      <footer class="page-footer">
+        <span>StudyFlow <span aria-hidden="true">✦</span> Academic Task & Coursework Management</span>
+        <nav>
+          <a href="/assignments.html">Assignments Workspace</a> · 
+          <a href="/calendar.html">Deadlines Timeline</a>
+        </nav>
+      </footer>
     </main>
   </div>
 
+  <!-- Shared Add/Edit Task Modal -->
   <div class="modal-backdrop" id="modal-backdrop" hidden>
     <section class="task-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-      <div class="modal-header"><div><p class="panel-kicker" id="modal-kicker">STAY ON TRACK</p><h2 id="modal-title">Add an assignment</h2><p class="modal-subtitle">A clear plan makes the next step easier.</p></div><button class="icon-button" id="close-modal" aria-label="Close dialog">×</button></div>
+      <div class="modal-header">
+        <div>
+          <p class="panel-kicker" id="modal-kicker">STAY ON TRACK</p>
+          <h2 id="modal-title">Add an assignment</h2>
+          <p class="modal-subtitle">A clear plan makes the next step easier.</p>
+        </div>
+        <button class="icon-button" id="close-modal" aria-label="Close dialog">×</button>
+      </div>
       <form id="task-form">
         <input type="hidden" id="task-id">
-        <label class="form-field">Assignment title <span>*</span><input id="title-input" name="title" maxlength="120" placeholder="e.g. Complete DSA worksheet" required></label>
-        <div class="form-row"><label class="form-field">Subject <span>*</span><input id="subject-input" name="subject" maxlength="80" placeholder="e.g. Algorithms" required></label><label class="form-field">Due date <span>*</span><input id="due-input" name="due_date" type="date" required></label></div>
-        <label class="form-field">Priority<select id="priority-input" name="priority"><option>Medium</option><option>High</option><option>Low</option></select></label>
-        <label class="form-field">Description <small>(optional)</small><textarea id="description-input" name="description" rows="3" maxlength="1000" placeholder="Add a few details about this assignment..."></textarea></label>
+        <label class="form-field">
+          Assignment title <span>*</span>
+          <input id="title-input" name="title" maxlength="120" placeholder="e.g. Complete DSA Assignment 3" required>
+        </label>
+        <div class="form-row">
+          <label class="form-field">
+            Subject <span>*</span>
+            <input id="subject-input" name="subject" maxlength="80" placeholder="e.g. Algorithms" required>
+          </label>
+          <label class="form-field">
+            Due date <span>*</span>
+            <input id="due-input" name="due_date" type="date" required>
+          </label>
+        </div>
+        <label class="form-field">
+          Priority
+          <select id="priority-input" name="priority">
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+            <option value="Low">Low</option>
+          </select>
+        </label>
+        <label class="form-field">
+          Description <small>(optional)</small>
+          <textarea id="description-input" name="description" rows="3" maxlength="1000" placeholder="Notes, submission links, or specific questions..."></textarea>
+        </label>
         <p class="form-error" id="form-error" role="alert" hidden></p>
-        <div class="modal-actions"><button type="button" class="button button-quiet" id="cancel-modal">Cancel</button><button type="submit" class="button button-primary" id="save-button">Save assignment</button></div>
+        <div class="modal-actions">
+          <button type="button" class="button button-quiet" id="cancel-modal">Cancel</button>
+          <button type="submit" class="button button-primary" id="save-button">Save assignment</button>
+        </div>
       </form>
     </section>
   </div>
+
+  <!-- Toast Notification -->
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
