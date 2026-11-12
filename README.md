@@ -1,6 +1,22 @@
 # StudyFlow — Student Task and Assignment Manager
 
-A beginner-friendly full-stack Software Engineering project. Students can create, view, edit, complete, search, filter, and delete assignments. The dashboard shows totals, pending/completed tasks, assignments due soon, and completion progress.
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/2403a52117-pixel/STUDENT-TASK-MANAGER-)
+
+A modern, full-stack multi-page student productivity portal. Students can manage coursework assignments, track deadlines on a visual timeline, and monitor completion metrics on an academic dashboard.
+
+---
+
+## 🚀 1-Click Live Deployment on Render
+
+You can deploy this project live to Render so that it is accessible from any laptop or mobile phone in the world:
+
+1. Click the **[Deploy to Render](https://render.com/deploy?repo=https://github.com/2403a52117-pixel/STUDENT-TASK-MANAGER-)** button above.
+2. Sign in or create a free account at [render.com](https://render.com).
+3. Connect your GitHub account and select this repository: `2403a52117-pixel/STUDENT-TASK-MANAGER-`.
+4. Click **Apply / Create Web Service**.
+5. Render will automatically build the service and give you a public URL (e.g. `https://student-task-manager-xxxx.onrender.com`).
+
+---
 
 ## Features
 - **Multi-Page Architecture**: Dedicated interfaces for Dashboard, Assignments Manager, and Deadlines Schedule
